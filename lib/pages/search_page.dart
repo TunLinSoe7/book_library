@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:library_book/bloc/search_page_bloc.dart';
+import 'package:library_book/constant/strings.dart';
 import 'package:library_book/data/vos/search_vo/item_vo.dart';
+import 'package:library_book/view_items/search_items_view.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 class SearchPage extends StatelessWidget {
@@ -36,23 +38,33 @@ class SearchPage extends StatelessWidget {
         ),
       body: Container(
         padding: const EdgeInsets.all(10),
-        child: Selector<SearchPageBloc,List<ItemsVO>?>(selector: (_ ,bloc )=>bloc.itemSearch,
-        builder: (_, value,child) {
-          return Selector<SearchPageBloc,bool>(builder:(_,condition,__){
-            return Visibility(
-              visible:controller.text.isEmpty?condition = false:condition=true ,
-              child: ListView.builder(itemCount: value?.length ,itemBuilder: (_,index){
-                return ListTile(
-                  leading: CircleAvatar(
-                    child:CachedNetworkImage(imageUrl: "${value?[index].volumeInfo?.imageLinks?.thumbnail}",placeholder: (_,url)=>const Icon(Icons.image),
-                      errorWidget: (_,url,error)=> const CircularProgressIndicator(),) ,),
-                  title: Text("${value?[index].volumeInfo?.title}"),
-                  subtitle: Text(value?[index].saleInfo?.isEbook ?? false ? "E Book":"Audio Book"),
+        child: Column(
+          children: [
+            SearchRecentView(icon: Icon(Icons.new_releases),
+              text: Text("New Release"),
+              onTap: (){},
+
+            ),
+            Selector<SearchPageBloc,List<ItemsVO>?>(selector: (_ ,bloc )=>bloc.itemSearch,
+            builder: (_, value,child) {
+              return Selector<SearchPageBloc,bool>(builder:(_,condition,__){
+                return Visibility(
+                  visible:controller.text.isEmpty?condition = false:condition=true ,
+                  child: ListView.builder(itemCount: value?.length ,itemBuilder: (_,index){
+                    return value==null?const CircularProgressIndicator():ListTile(
+                      leading: ClipRRect(
+                        borderRadius: BorderRadius.circular(25),
+                        child:CachedNetworkImage(fit: BoxFit.fill,height: 50,width: 50,imageUrl: "${value?[index].volumeInfo?.imageLinks?.thumbnail}",placeholder: (_,url)=>const Icon(Icons.image),
+                          errorWidget: (_,url,error)=> Image.asset(kPlaceHolderImage),) ,),
+                      title: Text("${value[index].volumeInfo?.title?.toLowerCase()}"),
+                      subtitle: Text(value[index].saleInfo?.isEbook ?? false ? "E Book":"Audio Book"),
+                    );
+                  }),
                 );
-              }),
-            );
-          }, selector: (_,bloc)=>bloc.getVisible);
-        },),
+              }, selector: (_,bloc)=>bloc.getVisible);
+            },),
+          ],
+        ),
       ),
     );
   }

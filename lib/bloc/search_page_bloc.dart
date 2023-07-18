@@ -6,7 +6,7 @@ import '../data/vos/search_vo/item_vo.dart';
 
 class SearchPageBloc extends ChangeNotifier{
   LibraryModel libraryModel = LibraryModelImpl();
-  bool _visible = false;
+  final bool _visible = false;
   bool isLoading = false;
   get getVisible => _visible;
   List<ItemsVO>? itemSearch;

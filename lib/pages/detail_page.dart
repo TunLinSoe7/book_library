@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:library_book/constant/strings.dart';
 import '../data/vos/overview_vo/book_vo.dart';
 class BookDetailPage extends StatelessWidget {
-  const BookDetailPage({super.key, required this.book,});
+  const BookDetailPage({super.key, required this.book, this.listName,});
 final BooksVO? book;
+final String? listName;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,7 +35,7 @@ final BooksVO? book;
                           width: 150,
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(10),
-                            child: CachedNetworkImage(
+                            child: book==null?const CircularProgressIndicator():CachedNetworkImage(
                               fit: BoxFit.fill,imageUrl: "${book?.bookImage}",
                               errorWidget: (_,error,url)=>const Icon(Icons.error),
                               placeholder: (_,url)=>Image.asset(kPlaceHolderImage),),
@@ -42,10 +43,9 @@ final BooksVO? book;
                         Expanded(
                           flex: 1,
                             child: Container(
-                              padding: EdgeInsets.all(15),
+                              padding: const EdgeInsets.all(15),
                               alignment: Alignment.topLeft,
-                                child: Text("${book?.title}",style: TextStyle(fontSize: 15),textAlign: TextAlign.justify,))),
-
+                                child: Text("${book?.title}",style: const TextStyle(fontSize: 15),textAlign: TextAlign.justify,))),
                       ],
                     ),
                   ),

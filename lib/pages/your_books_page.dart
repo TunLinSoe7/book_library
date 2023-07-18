@@ -1,12 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:library_book/bloc/library_page_bloc.dart';
 import 'package:library_book/constant/strings.dart';
+import 'package:library_book/data/vos/overview_vo/detail_vo.dart';
+import 'package:provider/provider.dart';
 class YourBookPage extends StatelessWidget {
   const YourBookPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
+      margin: const EdgeInsets.only(left: 10,right: 10),
      child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
        children: [
@@ -33,18 +37,31 @@ class YourBookPage extends StatelessWidget {
            ),
          ),
          Expanded(
-           child: Container(
-             child: GridView.builder(
-               itemCount:5 ,
-                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4), itemBuilder: (_,index){
-               return Container(
-                 child: Column(
+           child: SizedBox(
+             child: Selector<LibraryPageBloc,List<DetailVO>?>(builder: (_,bookData,__){
+               return GridView.builder(
+                   itemCount:bookData?.length ,
+                   gridDelegate: const  SliverGridDelegateWithFixedCrossAxisCount(
+                      childAspectRatio: 0.8,
+                       crossAxisCount: 2), itemBuilder: (_,index){
+                 return Column(
                    children: [
-                     CachedNetworkImage(imageUrl: "",errorWidget: (_,error,__)=>Icon(Icons.error),placeholder: (_,holder)=>Image.asset(kPlaceHolderImage),)
+                     Container(
+                       margin:const EdgeInsets.all(5),
+                         child: ClipRRect(
+                           borderRadius:BorderRadius.circular(10),
+                             child: CachedNetworkImage(
+                               width: 150,
+                               height: 150,
+                               fit: BoxFit.fill,
+                               imageUrl: "${bookData?[index].bookImage}",errorWidget: (_,error,__)=>const Center(child: Icon(Icons.image),),placeholder: (_,holder)=>Image.asset(kPlaceHolderImage),))),
+                     const SizedBox(height: 5,),
+                     Text("${bookData?[index].title}",style: const TextStyle(fontWeight: FontWeight.bold),),
                    ],
-                 ),
-               );
-             }),
+
+                 );
+               });
+             }, selector: (_,bloc)=>bloc.getDetailData),
            ),
          ),
        ],

@@ -6,7 +6,6 @@ import '../data/vos/overview_vo/list_vo.dart';
 class BookAndTitleWidget extends StatelessWidget {
   const BookAndTitleWidget({super.key, this.listVO, required this.imageUrl, required this.title, required this.imageHeight, required this.imageWidth, this.onTap});
   final List<ListsVO>? listVO;
-  final String defaultImage = "https://media.istockphoto.com/id/1350722846/photo/…20&c=3_QqKjo9OVEdt-6BA1fGKjJEY07qfAOG46Bozwegcdg=";
   final String imageUrl;
   final String title;
   final double imageHeight;
@@ -28,7 +27,7 @@ class BookAndTitleWidget extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                   child: CachedNetworkImage(
                     fit: BoxFit.fill,
-                    imageUrl: imageUrl.isEmpty?defaultImage:imageUrl
+                    imageUrl: imageUrl.isEmpty?kDefaultImage:imageUrl
                   ,placeholder: (_,holder)=>Image.asset(kPlaceHolderImage,fit: BoxFit.fill,),
                   errorWidget: (_,error,__)=> const CircularProgressIndicator(),),
                 ),
