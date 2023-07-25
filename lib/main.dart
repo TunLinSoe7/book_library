@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:library_book/bloc/home_page_bloc.dart';
 import 'package:library_book/bloc/library_page_bloc.dart';
 import 'package:library_book/bloc/search_page_bloc.dart';
+import 'package:library_book/bloc/shelf_page_bloc.dart';
+import 'package:library_book/constant/dimens.dart';
 import 'package:library_book/constant/hive_constant.dart';
 import 'package:library_book/data/vos/overview_vo/detail_vo.dart';
+import 'package:library_book/data/vos/overview_vo/shelf_vo.dart';
+import 'package:library_book/extensions/extension.dart';
 import 'package:library_book/pages/library_page.dart';
 import 'package:library_book/pages/my_home_page.dart';
 import 'package:library_book/pages/search_page.dart';
@@ -22,16 +26,21 @@ void main() async{
   Hive.registerAdapter(ListsVOAdapter());
   Hive.registerAdapter(ResultsVOAdapter());
   Hive.registerAdapter(DetailVOAdapter());
+  Hive.registerAdapter(ShelfVOAdapter());
+
   await Hive.openBox<BooksVO>(kBoxNameForBook);
   await Hive.openBox<BuyLinksVO>(kBoxNameForBuyLinks);
   await Hive.openBox<ListsVO>(kBoxNameForList);
   await Hive.openBox<ResultsVO>(kBoxNameForResult);
   await Hive.openBox<DetailVO>(kBoxNameForDetail);
+  await Hive.openBox<ShelfVO>(kBoxNameForShelf);
+
   runApp(
     MultiProvider(providers: [
       ChangeNotifierProvider<HomePageBloc>(create: (_)=>HomePageBloc()),
       ChangeNotifierProvider<SearchPageBloc>(create: (_)=>SearchPageBloc()),
       ChangeNotifierProvider<LibraryPageBloc>(create: (_)=>LibraryPageBloc()),
+      ChangeNotifierProvider<ShelfPageBloc>(create: (_)=>ShelfPageBloc()),
 
     ],child: const MyApp(),)
       );
@@ -42,10 +51,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> pages = [
-      const MyHomePage(),
-      const LibraryPage()
-    ];
     return  MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Book Library',
@@ -56,12 +61,12 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
         appBar: AppBar(
           title: Container(
-            padding: const EdgeInsets.only(top: 5,bottom: 5),
+            padding: const EdgeInsets.only(top: kSP5X,bottom: kSP5X),
             child: Builder(
               builder: (context){
                 return ListTileSearchView(
                     onTapFunction: (){
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=> const SearchPage()));
+                     // Navigator.of(context).push(MaterialPageRoute(builder: (context)=> const SearchPage()));
                     });
               },
             ),
@@ -70,7 +75,7 @@ class MyApp extends StatelessWidget {
        body: Selector<HomePageBloc,int>(builder: (_,selectedIndex,__){
          return IndexedStack(
            index: selectedIndex,
-           children: pages,
+           children: BottomNav.values.map((e) => e.bottomNavBarTitle).toList(),
          );
        }, selector: (_,bloc)=>bloc.selectedIndex),
         bottomNavigationBar: Selector<HomePageBloc,int>(
@@ -79,7 +84,7 @@ class MyApp extends StatelessWidget {
             return  BottomNavigationBar(
               currentIndex:selectedIndex ,
               onTap: (index){
-                Provider.of<HomePageBloc>(context,listen: false).setIndex(index);
+                context.read<HomePageBloc>().setIndex(index);
               },
               items: const [
                 BottomNavigationBarItem(icon: Icon(Icons.home),label: 'Home'),

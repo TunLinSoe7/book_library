@@ -6,4 +6,7 @@ abstract class BookDetailDAO{
   List<DetailVO>? getBookList();
   Stream watch();
   Stream<List<DetailVO>?> geBookListByStream();
+  DetailVO? getBookByTitle(String title);
+  void deleteYourBooksByTitle(String title);
+
 }

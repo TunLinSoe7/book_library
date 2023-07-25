@@ -1,38 +1,35 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'detail_vo.dart';
+part of 'shelf_vo.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class DetailVOAdapter extends TypeAdapter<DetailVO> {
+class ShelfVOAdapter extends TypeAdapter<ShelfVO> {
   @override
-  final int typeId = 5;
+  final int typeId = 6;
 
   @override
-  DetailVO read(BinaryReader reader) {
+  ShelfVO read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return DetailVO(
-      title: fields[0] as String?,
-      bookImage: fields[1] as String?,
-      dateTime: fields[2] as String?,
+    return ShelfVO(
+      shelfName: fields[0] as String?,
+      detailVO: (fields[1] as List?)?.cast<DetailVO>(),
     );
   }
 
   @override
-  void write(BinaryWriter writer, DetailVO obj) {
+  void write(BinaryWriter writer, ShelfVO obj) {
     writer
       ..writeByte(3)
       ..writeByte(0)
-      ..write(obj.title)
+      ..write(obj.shelfName)
       ..writeByte(1)
-      ..write(obj.bookImage)
-      ..writeByte(2)
-      ..write(obj.dateTime);
+      ..write(obj.detailVO);
   }
 
   @override
@@ -41,7 +38,7 @@ class DetailVOAdapter extends TypeAdapter<DetailVO> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is DetailVOAdapter &&
+      other is ShelfVOAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
