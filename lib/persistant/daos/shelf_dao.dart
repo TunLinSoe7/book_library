@@ -1,9 +1,8 @@
-import '../../data/vos/overview_vo/shelf_vo.dart';
+import 'package:library_book/data/vos/overview_vo/shelf_hive_vo.dart';
 
 abstract class ShelfDAO{
-  void save(ShelfVO shelfVO);
-  List<ShelfVO>? getShelfList();
+  void save(ShelfHiveVO shelfHiveVO);
+  ShelfHiveVO? getShelfListByTitle(String title);
   Stream watch();
-  Stream<List<ShelfVO>?> getShelfByStream();
-  ShelfVO? getShelfByTitle(String title);
+  Stream<ShelfHiveVO?> getShelfByStream(String title);
 }

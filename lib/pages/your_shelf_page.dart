@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:library_book/bloc/shelf_page_bloc.dart';
-import 'package:library_book/data/vos/overview_vo/shelf_vo.dart';
 import 'package:provider/provider.dart';
+
+import '../data/vos/overview_vo/shelf_hive_vo.dart';
 class YourShelfPage extends StatelessWidget {
   const YourShelfPage({super.key});
 
@@ -11,12 +12,12 @@ class YourShelfPage extends StatelessWidget {
       body: Container(
         child:Column(
           children: [
-            Expanded(child: Selector<ShelfPageBloc,List<ShelfVO>?>(
-            selector: (_,bloc)=>bloc.shelfVO,
+            Expanded(child: Selector<ShelfPageBloc,ShelfHiveVO?>(
+            selector: (_,bloc)=>bloc.shelfHiveVO,
             builder: (_,shelfData,__){
-              return  ListView.builder(itemCount: shelfData?.length,itemBuilder:(_,index){
+              return  ListView.builder(itemCount: shelfData?.shelfVO?.length,itemBuilder:(_,index){
                 return ListTile(
-                  leading: Image.network("${shelfData?[index].detailVO?.first.bookImage}"),
+                  leading: Image.network("${shelfData?.shelfVO?[index].image}"),
                 );
               } );
             },

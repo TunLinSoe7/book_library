@@ -32,16 +32,9 @@ class HomePageBloc extends ChangeNotifier{
     _libraryModel.save(books);
     print("date==========>${books.dateTime}");
   }
-  saveBookDataInDetailVOByDetail(BooksVO booksVO){
-    DateTime dateTime = DateTime.now();
-    String month = (dateTime.month.toString().length)==2? dateTime.month.toString():"0${dateTime.month}";
-    String day = (dateTime.day.toString().length)==2? dateTime.day.toString():"0${dateTime.day}";
-    String publishDate = "${dateTime.year}-$month-$day";
-   final detailVO = DetailVO(dateTime: publishDate,
-     bookImage: booksVO.bookImage,
-     title: booksVO.title,
-   );
-   return detailVO;
+  saveBookDataInShelfVO(BooksVO booksVO){
+  ShelfVO shelfVO = ShelfVO(image: booksVO.bookImage, title: booksVO.title);
+   return shelfVO;
   }
 
 

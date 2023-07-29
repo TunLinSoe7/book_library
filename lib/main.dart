@@ -6,6 +6,7 @@ import 'package:library_book/bloc/shelf_page_bloc.dart';
 import 'package:library_book/constant/dimens.dart';
 import 'package:library_book/constant/hive_constant.dart';
 import 'package:library_book/data/vos/overview_vo/detail_vo.dart';
+import 'package:library_book/data/vos/overview_vo/shelf_hive_vo.dart';
 import 'package:library_book/data/vos/overview_vo/shelf_vo.dart';
 import 'package:library_book/extensions/extension.dart';
 import 'package:library_book/pages/library_page.dart';
@@ -27,6 +28,7 @@ void main() async{
   Hive.registerAdapter(ResultsVOAdapter());
   Hive.registerAdapter(DetailVOAdapter());
   Hive.registerAdapter(ShelfVOAdapter());
+  Hive.registerAdapter(ShelfHiveVOAdapter());
 
   await Hive.openBox<BooksVO>(kBoxNameForBook);
   await Hive.openBox<BuyLinksVO>(kBoxNameForBuyLinks);
@@ -34,6 +36,7 @@ void main() async{
   await Hive.openBox<ResultsVO>(kBoxNameForResult);
   await Hive.openBox<DetailVO>(kBoxNameForDetail);
   await Hive.openBox<ShelfVO>(kBoxNameForShelf);
+  await Hive.openBox<ShelfHiveVO>(kBoxNameForShelfHiveVO);
 
   runApp(
     MultiProvider(providers: [

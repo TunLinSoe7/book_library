@@ -14,6 +14,7 @@ import 'package:stream_transform/stream_transform.dart';
 import '../../network/data_agent/data_agent.dart';
 import '../../network/data_agent/data_agent_impl.dart';
 import '../vos/overview_vo/result_vo.dart';
+import '../vos/overview_vo/shelf_hive_vo.dart';
 
 class LibraryModelImpl extends LibraryModel{
    String? baseUrl = "https://storage.googleapis.com/du-prd/books/images/";
@@ -56,13 +57,10 @@ class LibraryModelImpl extends LibraryModel{
   void deleteYourBooksByTitle(String title) =>_bookDetailDAO.deleteYourBooksByTitle(title);
   ///For shelf
   @override
-  ShelfVO? getShelfBookByTitle(String title) =>_shelfDAO.getShelfByTitle(title);
+  ShelfHiveVO? getShelfBookByTitle(String title) =>_shelfDAO.getShelfListByTitle(title);
 
   @override
-  List<ShelfVO>? getShelfBookList()=>_shelfDAO.getShelfList();
-
+  Stream<ShelfHiveVO?> getShelfByStream(String title) =>_shelfDAO.watch().startWith(_shelfDAO.getShelfByStream(title)).map((event) => _shelfDAO.getShelfListByTitle(title));
   @override
-  Stream<List<ShelfVO>?> getShelfByStream() =>_shelfDAO.watch().startWith(_shelfDAO.getShelfByStream()).map((event) => _shelfDAO.getShelfList());
-  @override
-  void saveShelf(ShelfVO shelfVO) =>_shelfDAO.save(shelfVO);
+  void saveShelf(ShelfHiveVO shelfHiveVO) =>_shelfDAO.save(shelfHiveVO);
 }

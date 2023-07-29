@@ -2,6 +2,7 @@ import 'package:library_book/data/vos/overview_vo/shelf_vo.dart';
 import 'package:library_book/data/vos/search_vo/item_vo.dart';
 import '../vos/overview_vo/detail_vo.dart';
 import '../vos/overview_vo/result_vo.dart';
+import '../vos/overview_vo/shelf_hive_vo.dart';
 
 abstract class LibraryModel{
   Future<ResultsVO?> getResultDataFromNetwork(String publishDate);
@@ -16,8 +17,7 @@ abstract class LibraryModel{
   void deleteYourBooksByTitle(String title);
 
  ///For Shelf
-  void saveShelf(ShelfVO shelfVO);
-  Stream<List<ShelfVO>?> getShelfByStream();
-  List<ShelfVO>? getShelfBookList();
-  ShelfVO? getShelfBookByTitle(String title);
+  void saveShelf(ShelfHiveVO shelfHiveVO);
+  Stream<ShelfHiveVO?> getShelfByStream(String title);
+  ShelfHiveVO? getShelfBookByTitle(String title);
 }

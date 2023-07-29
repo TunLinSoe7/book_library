@@ -8,7 +8,7 @@ import 'package:library_book/widgets/search_recent_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 class SearchPage extends StatelessWidget {
-   SearchPage({super.key});
+  const SearchPage({super.key});
   @override
   Widget build(BuildContext context) {
     return Selector<SearchPageBloc,TextEditingController>(
@@ -70,7 +70,7 @@ class SearchPage extends StatelessWidget {
                                 }),
                               ),
                             );
-                          },);
+                            },);
                       },
                     ),
                   ],

@@ -8,6 +8,7 @@ import 'package:library_book/data/vos/overview_vo/book_vo.dart';
 import 'package:library_book/data/vos/overview_vo/list_vo.dart';
 import 'package:library_book/pages/book_detail_page.dart';
 import 'package:library_book/pages/add_to_shelf_page.dart';
+import 'package:library_book/pages/your_shelf_page.dart';
 import 'package:library_book/widgets/book_widget.dart';
 import 'package:library_book/widgets/list_view_title_widget.dart';
 import 'package:provider/provider.dart';
@@ -66,12 +67,12 @@ final LibraryModel libraryModel = LibraryModelImpl();
         onTap: (){
           Navigator.pop(context);
          ShelfPageBloc bloc = context.read<ShelfPageBloc>();
-          bloc.detailVO = context.read<HomePageBloc>().saveBookDataInDetailVOByDetail(booksVO);
-          print("data===========>${bloc.detailVO?.title}");
-          Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const AddToShelfPage()));
+          bloc.shelfVO = context.read<HomePageBloc>().saveBookDataInShelfVO(booksVO);
+          print("data===========>${bloc.shelfVO?.title}");
+          Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const YourShelfPage()));
         },onTapLib: (){
           Navigator.pop(context);
-        libraryModel.deleteYourBooksByTitle("${booksVO.title}");
+          libraryModel.deleteYourBooksByTitle("${booksVO.title}");
         _showSnackBar(context,booksVO);
         },);
     }

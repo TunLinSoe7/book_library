@@ -1,39 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:library_book/data/vos/overview_vo/book_vo.dart';
 import 'package:library_book/data/vos/overview_vo/detail_vo.dart';
 import '../data/model/library_model.dart';
 import '../data/model/library_model_impl.dart';
+import '../data/vos/overview_vo/shelf_hive_vo.dart';
 import '../data/vos/overview_vo/shelf_vo.dart';
 
 class ShelfPageBloc extends ChangeNotifier{
-  TextEditingController _controller =TextEditingController();
-  DetailVO? detailVO;
+  final TextEditingController _controller =TextEditingController();
   List<DetailVO>? detail;
-  List<ShelfVO>? shelfVO;
-  ShelfVO? shelf;
+  ShelfVO? shelfVO;
+  ShelfHiveVO? shelfHiveVO;
   final LibraryModel _libraryModel = LibraryModelImpl();
-
-  void saveShelf(ShelfVO shelfVO){
-    _libraryModel.saveShelf(shelfVO);
+  void save(List<ShelfVO> shelfVO){
+    ShelfHiveVO shelfHiveVO = ShelfHiveVO(
+      shelfName: "Mag",
+      shelfVO: shelfVO,
+    );
+    saveShelf(shelfHiveVO);
+    notifyListeners();
   }
-    get getController=>_controller;
-  void getShelfVO(String title){
-    ShelfVO? shelfVO = _libraryModel.getShelfBookByTitle(title);
-      shelf = shelfVO;
-      notifyListeners();
-  }
-
-  void saveShelfVoInShelfDatabaseDetailVO(String title,DetailVO? detailsVO){
-    if(detailsVO!=null){
-      ShelfVO? _shelveVO=_libraryModel.getShelfBookByTitle(title);
-      List<DetailVO>? detail =_shelveVO?.detailVO;
-      detail?.add(detailsVO);
-      _shelveVO?.detailVO=detail;
-      saveShelf(_shelveVO!);
-    }
+  void saveShelf(ShelfHiveVO shelfHiveVO){
+    _libraryModel.saveShelf(shelfHiveVO);
   }
   ShelfPageBloc(){
-    _libraryModel.getShelfByStream().listen((event) {
-      shelfVO = event;
+    _libraryModel.getShelfByStream(shelfVO?.title ?? '').listen((event) {
+      print("answer===========>${event?.shelfVO?.length}");
+      shelfHiveVO = event;
       notifyListeners();
     });
   }

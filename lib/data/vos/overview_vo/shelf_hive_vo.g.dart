@@ -1,35 +1,35 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'shelf_vo.dart';
+part of 'shelf_hive_vo.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class ShelfVOAdapter extends TypeAdapter<ShelfVO> {
+class ShelfHiveVOAdapter extends TypeAdapter<ShelfHiveVO> {
   @override
-  final int typeId = 6;
+  final int typeId = 7;
 
   @override
-  ShelfVO read(BinaryReader reader) {
+  ShelfHiveVO read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return ShelfVO(
-      image: fields[0] as String?,
-      title: fields[1] as String?,
+    return ShelfHiveVO(
+      shelfName: fields[0] as String?,
+      shelfVO: (fields[1] as List?)?.cast<ShelfVO>(),
     );
   }
 
   @override
-  void write(BinaryWriter writer, ShelfVO obj) {
+  void write(BinaryWriter writer, ShelfHiveVO obj) {
     writer
       ..writeByte(2)
       ..writeByte(0)
-      ..write(obj.image)
+      ..write(obj.shelfName)
       ..writeByte(1)
-      ..write(obj.title);
+      ..write(obj.shelfVO);
   }
 
   @override
@@ -38,7 +38,7 @@ class ShelfVOAdapter extends TypeAdapter<ShelfVO> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ShelfVOAdapter &&
+      other is ShelfHiveVOAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
