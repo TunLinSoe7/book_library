@@ -5,6 +5,7 @@ import '../data/model/library_model_impl.dart';
 import '../data/vos/overview_vo/shelf_vo.dart';
 
 class ShelfPageBloc extends ChangeNotifier{
+  TextEditingController _controller =TextEditingController();
   DetailVO? detailVO;
   List<DetailVO>? detail;
   List<ShelfVO>? shelfVO;
@@ -14,7 +15,7 @@ class ShelfPageBloc extends ChangeNotifier{
   void saveShelf(ShelfVO shelfVO){
     _libraryModel.saveShelf(shelfVO);
   }
-
+    get getController=>_controller;
   void getShelfVO(String title){
     ShelfVO? shelfVO = _libraryModel.getShelfBookByTitle(title);
       shelf = shelfVO;
@@ -27,9 +28,7 @@ class ShelfPageBloc extends ChangeNotifier{
       List<DetailVO>? detail =_shelveVO?.detailVO;
       detail?.add(detailsVO);
       _shelveVO?.detailVO=detail;
-      if(_shelveVO!=null){
-        saveShelf(_shelveVO);
-      }
+      saveShelf(_shelveVO!);
     }
   }
   ShelfPageBloc(){

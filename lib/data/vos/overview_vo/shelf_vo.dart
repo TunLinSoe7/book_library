@@ -1,8 +1,8 @@
 import 'package:hive/hive.dart';
 import 'package:library_book/constant/hive_constant.dart';
-
 import 'detail_vo.dart';
 part 'shelf_vo.g.dart';
+
 @HiveType(typeId: kHiveTypeShelf)
 class ShelfVO{
   @HiveField(0)

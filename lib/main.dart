@@ -66,7 +66,7 @@ class MyApp extends StatelessWidget {
               builder: (context){
                 return ListTileSearchView(
                     onTapFunction: (){
-                     // Navigator.of(context).push(MaterialPageRoute(builder: (context)=> const SearchPage()));
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=>  SearchPage()));
                     });
               },
             ),

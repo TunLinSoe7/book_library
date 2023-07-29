@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:library_book/data/vos/overview_vo/detail_vo.dart';
 import 'package:library_book/data/vos/overview_vo/shelf_vo.dart';
+import 'package:library_book/pages/your_shelf_page.dart';
 import 'package:library_book/widgets/shelf_list_tilewidget.dart';
 import 'package:provider/provider.dart';
 import '../bloc/shelf_page_bloc.dart';
@@ -13,13 +14,7 @@ class AddToShelfPage extends StatefulWidget {
 }
 
 class _AddToShelfPageState extends State<AddToShelfPage> {
-   TextEditingController _controller =TextEditingController();
-  GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
-  @override
-  void dispose() {
-   _controller.dispose();
-    super.dispose();
-  }
+ final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Selector<ShelfPageBloc,List<ShelfVO>?>(
@@ -30,16 +25,25 @@ class _AddToShelfPageState extends State<AddToShelfPage> {
             return bloc.detailVO;
           },
           builder: (_,detail,__){
-            return Scaffold(
-              floatingActionButton: FloatingActionButton.extended(onPressed: (){
-                   _showDialog(context, _controller);
-              }, label: const Icon(Icons.edit)),
-              body: SizedBox(
-                child: ShelfListTileWidget(shelfVO: shelfVO ?? [], onTap: (shelfVO){
-                  ShelfPageBloc bloc = context.read<ShelfPageBloc>();
-                  bloc.saveShelfVoInShelfDatabaseDetailVO(shelfVO.shelfName.toString(), detail);
-                }),
-              ),
+            return Selector<ShelfPageBloc,TextEditingController>(
+              selector: (_,bloc)=>bloc.getController,
+              builder: (_,controller,__){
+                return Scaffold(
+                  floatingActionButton: FloatingActionButton.extended(onPressed: (){
+                    _showDialog(context, controller);
+                  }, label: const Icon(Icons.edit)),
+                  body: SizedBox(
+                    child: ShelfListTileWidget(
+                        onTapOne: (){
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context)=>YourShelfPage()));
+                        },
+                        shelfVO: shelfVO ?? [], onTap: (shelfVO){
+                      ShelfPageBloc bloc = context.read<ShelfPageBloc>();
+                      bloc.saveShelfVoInShelfDatabaseDetailVO(shelfVO.shelfName.toString(), detail);
+                    }),
+                  ),
+                );
+              },
             );
           },
         );

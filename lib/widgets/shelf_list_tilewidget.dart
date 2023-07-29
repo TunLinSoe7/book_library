@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:library_book/constant/strings.dart';
 import 'package:library_book/data/vos/overview_vo/shelf_vo.dart';
 class ShelfListTileWidget extends StatelessWidget {
-  const ShelfListTileWidget({super.key, required this.shelfVO, required this.onTap});
+  const ShelfListTileWidget({super.key, required this.shelfVO, required this.onTap, this.onTapOne});
  final List<ShelfVO> shelfVO;
  final Function(ShelfVO) onTap;
+ final GestureTapCallback? onTapOne;
   final imageURL =
       'https://www.artyzen.com/wp-content/uploads/2021/12/empty.jpg';
   @override
@@ -14,8 +15,8 @@ class ShelfListTileWidget extends StatelessWidget {
       children: [
          Visibility(
            visible: shelfVO.isEmpty?true:false,
-             child: const SizedBox(
-               child: Center(
+             child: const Center(
+               child:  SizedBox(
                  child: Text("There is no shelf right now.Create New Shelf"),
                ),
              )
@@ -25,16 +26,16 @@ class ShelfListTileWidget extends StatelessWidget {
             child: ListView(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              children: shelfVO.map((data){
+              children: shelfVO.map((shelfData){
                   String leading = '';
                   String bookCount ="";
-                  String title = data.shelfName.toString();
-                  int bookLength = data.detailVO?.length ?? 0;
-                  if(data.detailVO?.isEmpty ?? true){
+                  String title = shelfData.shelfName.toString();
+                  int bookLength = shelfData.detailVO?.length ?? 0;
+                  if(shelfData.detailVO?.isEmpty ?? true){
                        leading = imageURL;
                        bookCount = 'Empty Book';
                   }else{
-                    leading = data.detailVO?.first.bookImage.toString() ?? kDefaultImage;
+                    leading = shelfData.detailVO?.first.bookImage.toString() ?? kDefaultImage;
                     if(bookLength<=1){
                        bookCount = "$bookLength book";
                     }else{
@@ -42,11 +43,13 @@ class ShelfListTileWidget extends StatelessWidget {
                     }
                   }
                 return ListTile(
-
+                  trailing: InkWell(
+                       onTap:onTapOne ,
+                      child: const Icon(Icons.chevron_right)),
                   leading: Image.network(leading),
                   title: Text(title),
                   subtitle: Text(bookCount),
-                  onTap: onTap(data),
+                  onTap: onTap(shelfData),
                 );
               }).toList(),
             ),

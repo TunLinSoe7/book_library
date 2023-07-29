@@ -17,14 +17,12 @@ import 'library_page.dart';
 
 
 class EBookPage extends StatelessWidget {
-  const EBookPage({super.key, required this.listVO});
+   EBookPage({super.key, required this.listVO});
 
   final List<ListsVO>? listVO;
-
+final LibraryModel libraryModel = LibraryModelImpl();
   @override
   Widget build(BuildContext context) {
-    TextEditingController _controller = TextEditingController();
-    LibraryModel libraryModel = LibraryModelImpl();
     return SizedBox(
         child:   listVO==null
             ? const Center(child:  CircularProgressIndicator())
@@ -43,7 +41,7 @@ class EBookPage extends StatelessWidget {
                           return BookAndTitleWidget(
                               icon: const Icon(Icons.bookmark_border_rounded,size: kSP30X,color: Colors.yellow,),
                               onTap1: (){
-                                _showBottomSheet(context, listVO?[index].books?[index1] ?? BooksVO(),libraryModel,_controller);
+                                _showBottomSheet(context, listVO?[index].books?[index1] ?? BooksVO(),libraryModel);
                               },
                               onTap: () {
                                 context.read<HomePageBloc>().saveBookDataInDetail(listVO?[index].books?[index1]);
@@ -62,9 +60,9 @@ class EBookPage extends StatelessWidget {
 
   }
 
-  Future _showBottomSheet(BuildContext context,BooksVO booksVO,LibraryModel libraryModel,TextEditingController controller){
+  Future _showBottomSheet(BuildContext context,BooksVO booksVO,LibraryModel libraryModel){
     return showModalBottomSheet(context: context , builder:(context){
-      return  BottomSheetWidget(image: '${booksVO?.bookImage}',title: '${booksVO?.title}',
+      return  BottomSheetWidget(image: '${booksVO.bookImage}',title: '${booksVO.title}',
         onTap: (){
           Navigator.pop(context);
          ShelfPageBloc bloc = context.read<ShelfPageBloc>();
@@ -73,7 +71,7 @@ class EBookPage extends StatelessWidget {
           Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const AddToShelfPage()));
         },onTapLib: (){
           Navigator.pop(context);
-        libraryModel.deleteYourBooksByTitle("${booksVO?.title}");
+        libraryModel.deleteYourBooksByTitle("${booksVO.title}");
         _showSnackBar(context,booksVO);
         },);
     }
