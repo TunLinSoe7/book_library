@@ -51,7 +51,7 @@ class MyHomePage extends StatelessWidget {
                     child: TabBarView(
                       children: [
                         EBookPage(listVO: bookData?.lists),
-                        const SizedBox(),
+                        EBookPage(listVO: bookData?.lists),
                       ],
                     ),
                   );

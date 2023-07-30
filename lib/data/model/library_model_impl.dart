@@ -55,12 +55,17 @@ class LibraryModelImpl extends LibraryModel{
 
   @override
   void deleteYourBooksByTitle(String title) =>_bookDetailDAO.deleteYourBooksByTitle(title);
-  ///For shelf
+   ///For shelf
   @override
-  ShelfHiveVO? getShelfBookByTitle(String title) =>_shelfDAO.getShelfListByTitle(title);
+  Stream<List<ShelfHiveVO>?> getShelfByStream()=>_shelfDAO.watch().startWith(_shelfDAO.getShelfByStream()).map((event) => _shelfDAO.getShelfList());
 
   @override
-  Stream<ShelfHiveVO?> getShelfByStream(String title) =>_shelfDAO.watch().startWith(_shelfDAO.getShelfByStream(title)).map((event) => _shelfDAO.getShelfListByTitle(title));
+  List<ShelfHiveVO>? getShelfList() =>_shelfDAO.getShelfList();
+
   @override
   void saveShelf(ShelfHiveVO shelfHiveVO) =>_shelfDAO.save(shelfHiveVO);
+
+  @override
+  ShelfHiveVO? getShelfVO(String title) =>_shelfDAO.getShelfVOByTitle(title);
+
 }

@@ -17,7 +17,8 @@ abstract class LibraryModel{
   void deleteYourBooksByTitle(String title);
 
  ///For Shelf
-  void saveShelf(ShelfHiveVO shelfHiveVO);
-  Stream<ShelfHiveVO?> getShelfByStream(String title);
-  ShelfHiveVO? getShelfBookByTitle(String title);
+ void saveShelf(ShelfHiveVO shelfHiveVO);
+ List<ShelfHiveVO>? getShelfList();
+ Stream<List<ShelfHiveVO>?> getShelfByStream();
+ ShelfHiveVO? getShelfVO(String title);
 }

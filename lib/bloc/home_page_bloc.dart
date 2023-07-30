@@ -30,16 +30,11 @@ class HomePageBloc extends ChangeNotifier{
       dateTime: publishDate
     );
     _libraryModel.save(books);
-    print("date==========>${books.dateTime}");
   }
   saveBookDataInShelfVO(BooksVO booksVO){
   ShelfVO shelfVO = ShelfVO(image: booksVO.bookImage, title: booksVO.title);
    return shelfVO;
   }
-
-
-
-
   HomePageBloc(){
     DateTime dateTime = DateTime.now();
     String month = (dateTime.month.toString().length)==2? dateTime.month.toString():"0${dateTime.month}";
@@ -48,7 +43,9 @@ class HomePageBloc extends ChangeNotifier{
     String publishDate = "${dateTime.year}-$month-$day";
       _libraryModel.getResultDataFromNetwork(publishDate);
       _libraryModel.getResultDataFromDatabase(publishDate).listen((value) {
-        resultsVO =value;
+        if(value!=null){
+          resultsVO =value;
+        }
         notifyListeners();
       });
       ///For CarouselSlider

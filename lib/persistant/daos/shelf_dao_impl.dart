@@ -9,16 +9,18 @@ class ShelfDAOImpl extends ShelfDAO{
   factory ShelfDAOImpl()=>_singleton;
 
   @override
-  Stream<ShelfHiveVO?> getShelfByStream(String title) =>Stream.value(getShelfListByTitle(title));
-
-
-  @override
-  void save(ShelfHiveVO shelfHiveVO) =>_shelfBox().put(shelfHiveVO.shelfName, shelfHiveVO);
+  Stream<List<ShelfHiveVO>?> getShelfByStream() =>Stream.value(getShelfList());
 
   @override
-  Stream watch() =>_shelfBox().watch();
-  Box<ShelfHiveVO> _shelfBox()=>Hive.box<ShelfHiveVO>(kBoxNameForShelfHiveVO);
+  List<ShelfHiveVO> getShelfList() =>_box().values.toList();
 
   @override
-  ShelfHiveVO? getShelfListByTitle(String title) =>_shelfBox().get(title);
+  void save(ShelfHiveVO shelfHiveVO) =>_box().put(shelfHiveVO.shelfName,shelfHiveVO);
+
+  @override
+  Stream watch() =>_box().watch();
+  Box<ShelfHiveVO> _box()=>Hive.box<ShelfHiveVO>(kBoxNameForShelfHiveVO);
+
+  @override
+  ShelfHiveVO? getShelfVOByTitle(String title) =>_box().get(title);
 }

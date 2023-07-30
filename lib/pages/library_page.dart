@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:library_book/constant/dimens.dart';
-import 'package:library_book/data/vos/overview_vo/shelf_vo.dart';
 import 'package:library_book/extensions/extension.dart';
 import 'package:library_book/pages/your_books_page.dart';
-import 'package:library_book/pages/add_to_shelf_page.dart';
 import 'package:library_book/pages/your_shelf_page.dart';
 class LibraryPage extends StatelessWidget {
   const LibraryPage({super.key});
@@ -21,7 +19,7 @@ class LibraryPage extends StatelessWidget {
         child: SizedBox(
           child: TabBarView(children: [
             YourBookPage(),
-            //AddToShelfPage(),
+            YourShelfPage(),
           ],),
         ),
       ),
