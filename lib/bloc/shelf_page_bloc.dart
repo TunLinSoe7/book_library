@@ -14,6 +14,7 @@ class ShelfPageBloc extends ChangeNotifier{
   void saveShelf(ShelfHiveVO shelfHiveVO){
     _libraryModel.saveShelf(shelfHiveVO);
   }
+  ///save shelf data to shelf database
   void saveShelfVoInShelfDatabase(String title,ShelfVO? shelfVO){
     if(shelfVO!=null){
       ShelfHiveVO ? shelveVO=_libraryModel.getShelfVO(title);
